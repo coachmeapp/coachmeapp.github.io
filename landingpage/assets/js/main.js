@@ -9,11 +9,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
 // import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAq3M0wc0DQA38uMQZb5h3gCCcg-TwOmPo",
   authDomain: "coachmelandingpage.firebaseapp.com",
@@ -30,16 +26,14 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Realtime Database and get a reference to the service
 const database = getDatabase(app);
-
-//Reference Email collections
-// let emailsDb = app.getFirestore(); firebase.database().ref("emails");
+const postListRef = ref(db, 'emails');
+const newPostRef = push(postListRef);
 
 //listen for a submit
 document.querySelector(".subscribe-form").addEventListener("submit", submitForm);
 
 function submitForm(e) {
   e.preventDefault();
-  //console.log(123);
 
   //collect for values
   let emailAddress = document.querySelector(".emailAddress").value;
@@ -48,15 +42,11 @@ function submitForm(e) {
   saveEmail(emailAddress);
 }
 
-//Save emails to firebase
+//Save emails as list to firebase
 function saveEmail(email) {
-  set(ref(database, 'emails/'), {
+  set(postListRef, {
     email: email
   });
-  // let newEmail = emailsDb.push();
-  // newEmail.set({
-  //   email: email
-  // });
 }
 
 (function() {
